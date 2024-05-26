@@ -1,0 +1,29 @@
+#TC: O(nxm)
+#SC=O(nxm)
+class Solution:
+    '''
+    approach: 2d array wich can fill 0 row with 0 and 1st col with 1(no. of ways to get  any coin with 0=0 no.of ways to get 0 with coins=1)
+    if col is less than the coin take the [i-1] row else add i-1 and j-coin(current coin val)
+    '''
+
+    def change(self, amount: int, coins: List[int]) -> int:
+        if coins is None or len(coins)==0:
+            return 0
+        
+        dp = [[0]* (amount + 1)  for _ in range(len(coins) + 1)]
+
+        for i in range(1, len(coins) + 1):
+           dp[i][0] = 1
+        
+        for i in range(1,len(coins)+1):
+            for j in range(1, amount+1):
+                if j<coins[i-1]:
+                    dp[i][j]=dp[i-1][j]
+                
+                else:
+                    dp[i][j]= dp[i-1][j] + dp[i][j-coins[i-1]]
+        
+        
+        return dp[len(coins)][amount]
+            
+    #error initializind 2D array
